@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>눈 내리는 사갈의 마을</title>
+    <style>
+        /* body 태그에 배경 이미지 및 기본 스타일 설정 */
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden; /* 스크롤바가 생기지 않도록 설정 */
+            background-image: url("media/snow.jpg");
+            background-size: 100% 100%;
+            background-repeat: no-repeat;
+        }
+
+        /* 눈송이(div) 스타일 설정 */
+        .snowflake {
+            position: absolute;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            user-select: none; /* 텍스트 드래그 방지 */
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        const SNOW_COUNT = 30; // 만들어낼 눈의 개수
+        const snowflakes = []; // div 엘리먼트 배열
+        const x = [];          // 눈의 x 좌표 배열
+        const y = [];          // 눈의 y 좌표 배열
+        const speed = [];      // 눈의 떨어지는 속도 배열
+
+        // 눈송이 30개를 생성하고 랜덤 위치에 배치하는 함수
+        function createSnow() {
+            for (let i = 0; i < SNOW_COUNT; i++) {
+                const div = document.createElement("div");
+                div.className = "snowflake";
+                div.innerHTML = "*"; // 눈 모양 문자 (또는 ❄)
+                document.body.appendChild(div);
+
+                // 화면 크기 내에서 랜덤한 위치(x, y) 설정
+                x[i] = Math.floor(Math.random() * window.innerWidth);
+                y[i] = Math.floor(Math.random() * window.innerHeight);
+                speed[i] = Math.random() * 3 + 1; // 떨어지는 속도 (1 ~ 4)
+
+                div.style.left = x[i] + "px";
+                div.style.top = y[i] + "px";
+
+                snowflakes.push(div);
+            }
+        }
+
+        // 일정 시간마다 눈의 위치를 갱신하는 함수
+        function fallSnow() {
+            for (let i = 0; i < SNOW_COUNT; i++) {
+                // y 좌표 증가 (아래로 이동)
+                y[i] += speed[i];
+
+                // 바닥 근처(화면 아래쪽)에 도달하면 다시 화면 위로 이동
+                if (y[i] >= window.innerHeight - 20) {
+                    y[i] = 0;
+                    x[i] = Math.floor(Math.random() * window.innerWidth); // x 위치도 다시 랜덤 설정
+                }
+
+                snowflakes[i].style.top = y[i] + "px";
+                snowflakes[i].style.left = x[i] + "px";
+            }
+        }
+
+        // 페이지 로드가 완료되면 실행
+        window.onload = function() {
+            createSnow();
+            // 50ms (0.05초)마다 fallSnow 함수를 반복 호출하여 애니메이션 효과 생성
+            setInterval(fallSnow, 50);
+        };
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>div 태그에 시계 만들기 (setInterval)</title>
+    <style>
+        div {
+            display: inline-block;
+            border: 1px solid gray;
+            padding: 5px 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        let timerId = null;
+        let isRunning = false;
+
+        function updateTime() {
+            let clock = document.getElementById("clock");
+            let now = new Date();
+            clock.innerHTML = now.toLocaleTimeString();
+        }
+
+        function startClock() {
+            updateTime();
+            timerId = setInterval(updateTime, 1000);
+            isRunning = true;
+        }
+
+        function toggleClock() {
+            let clock = document.getElementById("clock");
+
+            if (isRunning) {
+                clearInterval(timerId);
+                timerId = null;
+                isRunning = false;
+                clock.style.backgroundColor = "lightgray";
+            } else {
+                startClock();
+                clock.style.backgroundColor = "white";
+            }
+        }
+    </script>
+</head>
+<body onload="startClock()">
+    <h3>div 태그에 시계 만들기</h3>
+    <p>시계를 클릭하면 시계가 멈추고 다시 클릭하면 가기 시작한다.</p>
+    <hr>
+    <div id="clock" onclick="toggleClock()"></div>
+</body>
+</html>

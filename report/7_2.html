@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>산수를 풀어 봅시다</title>
+    <style>
+        td { padding: 4px 10px; }
+        input { width: 80px; }
+    </style>
+    <script>
+        // 랜덤 문제를 만들어주는 함수
+        function makeQuestion() {
+            let questions = document.getElementsByClassName("question");
+            let answers = document.getElementsByClassName("answer");
+            let ops = ["+", "-", "*", "/"];
+
+            for (let i = 0; i < questions.length; i++) {
+                // 1~20 사이의 랜덤 숫자와 랜덤 연산자 조합
+                let num1 = Math.floor(Math.random() * 20) + 1;
+                let num2 = Math.floor(Math.random() * 20) + 1;
+                let op = ops[Math.floor(Math.random() * ops.length)];
+
+                // 수식 설정 및 초기화
+                questions[i].innerText = num1 + op + num2;
+                questions[i].style.textDecoration = "none";
+                answers[i].value = "";
+            }
+            // 점수 초기화
+            document.getElementById("score").innerText = "0";
+        }
+
+        // 채점 함수
+        function calc() {
+            let questions = document.getElementsByClassName("question");
+            let answers = document.getElementsByClassName("answer");
+            let count = 0;
+
+            for (let i = 0; i < questions.length; i++) {
+                let qText = questions[i].innerText;
+                let userAns = parseInt(answers[i].value);
+                
+                // eval()로 수식 계산 후 Math.floor()로 정수 처리 (나누기 대처)
+                let correctAns = Math.floor(eval(qText));
+
+                if (userAns === correctAns) {
+                    count++;
+                    questions[i].style.textDecoration = "none";
+                } else {
+                    questions[i].style.textDecoration = "line-through";
+                }
+            }
+
+            document.getElementById("score").innerText = count;
+        }
+    </script>
+</head>
+
+<!-- 로드될 때 자동으로 문제 4개 생성 -->
+<body onload="makeQuestion()">
+    <h3>산수 문제를 풀어 봅시다.</h3>
+    <p>
+        자동으로 문제가 만들어집니다. 답 입력 후 채점 버튼을 누르세요. 
+        다시 버튼을 누르면 새로운 문제가 출력됩니다. 나누기 결과는 정수입니다.
+    </p>
+    <hr>
+    <table>
+        <tr><td><span class="question"></span></td><td><input type="text" class="answer"></td></tr>
+        <tr><td><span class="question"></span></td><td><input type="text" class="answer"></td></tr>
+        <tr><td><span class="question"></span></td><td><input type="text" class="answer"></td></tr>
+        <tr><td><span class="question"></span></td><td><input type="text" class="answer"></td></tr>
+        <tr>
+            <td>
+                <button onclick="calc()">채점</button> 
+                <span id="score">0</span>
+            </td>
+            <td>
+                <button onclick="makeQuestion()">다시</button>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

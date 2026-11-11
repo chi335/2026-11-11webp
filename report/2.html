@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>문제 2번</title>
+    <script>
+        function loadPopUp() {
+            // left=500, top=400 옵션을 주어 위치를 (500, 400)으로 설정
+            let win = window.open("", "", "width=300,height=150,left=500,top=400");
+            
+            // 힌트 반영: document.write()를 먼저 실행한 뒤 타이틀과 배경색 변경
+            win.document.write("접속 감사합니다!<br>열심히 하세요!");
+            win.document.title = "환영";
+            win.document.body.style.backgroundColor = "yellowgreen";
+        }
+    </script>
+</head>
+<body onload="loadPopUp()">
+    <h3>HTML5</h3>
+    <hr>
+    <p>
+        HTML5를 학습하는 사이트입니다.<br>
+        여기서 HTML5, CSS3, 자바스크립트를<br>
+        배울 수 있습니다.
+    </p>
+</body>
+</html>
