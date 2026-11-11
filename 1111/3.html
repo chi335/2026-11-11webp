@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>setTimeout()으로 웹 페이지 자동 연결</title>
+</head>
+<body>
+<h3>이미지에 마우스를 올리고 5초간 그대로 있을 때 사이트로 이동합니다</h3>
+<hr>
+<!-- 이미지 경로(src)는 본인의 환경에 맞게 수정하여 사용하세요 -->
+<img id="img" src="media/naver.gif" 
+     onmouseover="startTimer(5000)" 
+     onmouseout="cancelTimer()">
+
+<script>
+let timerID = null;
+
+function startTimer(time) {
+    // 타이머 시작 (지정된 시간 후 load 함수 호출)
+    timerID = setTimeout(function() {
+        load('https://www.naver.com');
+    }, time);
+}
+
+function cancelTimer() {
+    // 마우스를 떼었을 때 타이머가 진행 중이라면 중단
+    if (timerID != null) {
+        clearTimeout(timerID);
+        timerID = null;
+    }
+}
+
+function load(url) {
+    // 현재 윈도우의 주소를 변경하여 해당 사이트로 이동
+    window.location.href = url;
+}
+
+// 웹페이지가 로딩된 후 이미지에 툴팁 메시지 설정
+window.onload = function() {
+    document.getElementById("img").title = "타이머 작동 시작... (5초간 유지하세요)";
+};
+</script>
+
+</body>
+</html>
